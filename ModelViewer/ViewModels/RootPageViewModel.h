@@ -19,12 +19,18 @@ namespace ViewModels
 
 		property bool Loading { bool get(); void set(bool val); }
 		property ICommand^ LoadFileCommand;
+		property ICommand^ LoadDicomCommand;
 		property String^ Filename { String^ get(); void set(String^ val); }
 
 	private:
 		void ExecuteLoadCommand(Object^ param);
+		void ExecuteLoadDicomCommand(Object^ param);
+		
 		future<shared_ptr<GraphNode>> RootPageViewModel::LoadFileAsync();
+		future<shared_ptr<GraphNode>> RootPageViewModel::LoadDicomFileAsync();
+
 		future<void> RootPageViewModel::Load();
+		future<void> RootPageViewModel::LoadDicom();
 
 		bool _loading = false;
 		String^ _filename;

@@ -74,6 +74,7 @@
                             DefaultLabelPosition="Right"
                             Background="{ThemeResource SystemControlBackgroundAltHighBrush}">
                         <AppBarButton Style="{ThemeResource AppBarButtonRevealStyle}" Label="Import" Icon="Import" Command="{x:Bind LoadFileCommand}"/>
+                        <AppBarButton Style="{ThemeResource AppBarButtonRevealStyle}" Label="DICOM" Icon="BrowsePhotos" Command="{x:Bind LoadDicomCommand}"/>
                     </CommandBar>
                 </Grid>
             </DataTemplate>

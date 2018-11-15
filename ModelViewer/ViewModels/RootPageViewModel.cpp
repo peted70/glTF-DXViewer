@@ -12,6 +12,7 @@ using namespace Windows::Storage::Pickers;
 RootPageViewModel::RootPageViewModel()
 {
 	LoadFileCommand = ref new DelegateCommand(ref new ExecuteDelegate(this, &RootPageViewModel::ExecuteLoadCommand), nullptr);
+	LoadDicomCommand = ref new DelegateCommand(ref new ExecuteDelegate(this, &RootPageViewModel::ExecuteLoadDicomCommand), nullptr);
 }
 
 class LoadingWrapper
@@ -59,6 +60,26 @@ future<shared_ptr<GraphNode>> RootPageViewModel::LoadFileAsync()
 	co_return ret;
 }
 
+future<shared_ptr<GraphNode>> RootPageViewModel::LoadDicomFileAsync()
+{
+	auto fop = ref new FileOpenPicker();
+	fop->ViewMode = PickerViewMode::Thumbnail;
+	fop->SuggestedStartLocation = Pickers::PickerLocationId::PicturesLibrary;
+	fop->FileTypeFilter->Append(".png");
+	fop->FileTypeFilter->Append(".jpg");
+	fop->FileTypeFilter->Append(".jpeg");
+
+	auto storageFiles = co_await fop->PickMultipleFilesAsync();
+	if (storageFiles == nullptr)
+		co_return nullptr;
+
+	// RAII-style for ensuring that the progress gets cleared robustly
+	auto loader = make_unique<LoadingWrapper>([this]() { Loading = true; }, [this]() { Loading = false; });
+
+	auto ret = co_await ModelFactory::Instance().CreateVolumeFromImagesAsync(storageFiles);
+	co_return ret;
+}
+
 future<void> RootPageViewModel::Load()
 {
 	Utility::Out(L"At Start of Load");
@@ -73,9 +94,28 @@ future<void> RootPageViewModel::Load()
 	SceneManager::Instance().AddNode(node);
 }
 
+future<void> RootPageViewModel::LoadDicom()
+{
+	Utility::Out(L"At Start of Load");
+	auto node = co_await LoadDicomFileAsync();
+	if (node == nullptr)
+		co_return;
+
+	Utility::Out(L"Loaded");
+
+	// Add the GraphNode to the scene	
+	auto current = SceneManager::Instance().Current();
+	SceneManager::Instance().AddNode(node);
+}
+
 void RootPageViewModel::ExecuteLoadCommand(Object^ param)
 {
 	Load();
+}
+
+void RootPageViewModel::ExecuteLoadDicomCommand(Object^ param)
+{
+	LoadDicom();
 }
 
 bool RootPageViewModel::Loading::get()

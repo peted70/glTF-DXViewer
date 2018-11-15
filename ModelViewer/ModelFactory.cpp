@@ -118,3 +118,11 @@ future<shared_ptr<GraphNode>> ModelFactory::CreateFromFileAsync(StorageFile^ fil
 	sp.reset(_root);
 	co_return sp;
 }
+
+future<shared_ptr<GraphNode>> ModelFactory::CreateVolumeFromImagesAsync(IVectorView<StorageFile^>^ storageFiles)
+{
+	for (auto sf : storageFiles)
+	{
+		
+	}
+}

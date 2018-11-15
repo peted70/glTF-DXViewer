@@ -7,6 +7,7 @@
 #include "Singleton.h"
 
 using namespace Windows::Foundation;
+using namespace Windows::Foundation::Collections;
 using namespace ModelViewer;
 using namespace std;
 using namespace Platform;
@@ -20,6 +21,8 @@ class ModelFactory : public Singleton<ModelFactory>
 	
 public:
 	future<shared_ptr<GraphNode>> CreateFromFileAsync(StorageFile^ file);
+	future<shared_ptr<GraphNode>> CreateVolumeFromImagesAsync(IVectorView<StorageFile^>^ storageFiles);
+
 	void CreateSceneNode(GLTF_SceneNodeData^ data);
 	GraphNode *InitialiseMesh(GLTF_SceneNodeData^ data);
 	void CreateBuffer(GLTF_BufferData^ data);
