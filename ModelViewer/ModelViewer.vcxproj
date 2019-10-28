@@ -34,8 +34,8 @@
     <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
     <AppContainerApplication>true</AppContainerApplication>
     <ApplicationType>Windows Store</ApplicationType>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
-    <WindowsTargetPlatformMinVersion>10.0.17134.0</WindowsTargetPlatformMinVersion>
+    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformMinVersion>10.0.18362.0</WindowsTargetPlatformMinVersion>
     <ApplicationTypeRevision>10.0</ApplicationTypeRevision>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -102,7 +102,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <PackageCertificateKeyFile>ModelViewer_TemporaryKey.pfx</PackageCertificateKeyFile>
-    <PackageCertificateThumbprint>61F8CE2777CE614F54ED187D9368C32F4E988987</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>64C511ACB01CB0952A3C2E6A44037AF1FD0B04E7</PackageCertificateThumbprint>
+    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <Link>
@@ -116,6 +117,7 @@
       <AdditionalOptions>/bigobj /await /d2CoroOptsWorkaround </AdditionalOptions>
       <DisableSpecificWarnings>4453;28204</DisableSpecificWarnings>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
@@ -130,6 +132,7 @@
       <AdditionalOptions>/bigobj /await /d2CoroOptsWorkaround </AdditionalOptions>
       <DisableSpecificWarnings>4453;28204</DisableSpecificWarnings>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -144,7 +147,7 @@
       <AdditionalOptions>/bigobj /await /d2CoroOptsWorkaround </AdditionalOptions>
       <DisableSpecificWarnings>4453;28204</DisableSpecificWarnings>
       <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <LanguageStandard>stdcpp14</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -159,7 +162,7 @@
       <AdditionalOptions>/bigobj /await /d2CoroOptsWorkaround </AdditionalOptions>
       <DisableSpecificWarnings>4453;28204</DisableSpecificWarnings>
       <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;-D_SCL_SECURE_NO_WARNINGS,NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <LanguageStandard>stdcpp14</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -174,6 +177,7 @@
       <AdditionalOptions>/bigobj /await /d2CoroOptsWorkaround </AdditionalOptions>
       <DisableSpecificWarnings>4453;28204</DisableSpecificWarnings>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -188,6 +192,7 @@
       <AdditionalOptions>/bigobj /await /d2CoroOptsWorkaround </AdditionalOptions>
       <DisableSpecificWarnings>4453;28204</DisableSpecificWarnings>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -282,7 +287,12 @@
     <ClInclude Include="BufferCache.h" />
     <ClInclude Include="Common\BindableBase.h" />
     <ClInclude Include="BufferManager.h" />
+    <ClInclude Include="Common\CameraResources.h" />
     <ClInclude Include="Common\DeviceResources.h" />
+    <ClInclude Include="Common\HolographicDeviceResources.h" />
+    <ClInclude Include="ConnectPage.xaml.h">
+      <DependentUpon>ConnectPage.xaml</DependentUpon>
+    </ClInclude>
     <ClInclude Include="Container.h" />
     <ClInclude Include="DecimalPlacesConverter.h" />
     <ClInclude Include="DelegateCommand.h" />
@@ -290,7 +300,9 @@
     <ClInclude Include="DXUtils.h" />
     <ClInclude Include="FileSystemData.h" />
     <ClInclude Include="GlyphConverter.h" />
+    <ClInclude Include="IDeviceNotify.h" />
     <ClInclude Include="ImgUtils.h" />
+    <ClInclude Include="LoadingWrapper.h" />
     <ClInclude Include="ModelBufferManager.h" />
     <ClInclude Include="RenderTexture.h" />
     <ClInclude Include="Scene\SceneContext.h" />
@@ -298,6 +310,7 @@
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="Subject.h" />
     <ClInclude Include="sub_token.h" />
+    <ClInclude Include="ViewModels\ConnectPageViewModel.h" />
     <ClInclude Include="ViewModels\TransformViewModel.h" />
     <ClInclude Include="ViewModels\DirectXPageViewModel.h" />
     <ClInclude Include="DXGrid.h" />
@@ -338,7 +351,12 @@
     <ClCompile Include="BufferCache.cpp" />
     <ClCompile Include="Common\BindableBase.cpp" />
     <ClCompile Include="BufferManager.cpp" />
+    <ClCompile Include="Common\CameraResources.cpp" />
     <ClCompile Include="Common\DeviceResources.cpp" />
+    <ClCompile Include="Common\HolographicDeviceResources.cpp" />
+    <ClCompile Include="ConnectPage.xaml.cpp">
+      <DependentUpon>ConnectPage.xaml</DependentUpon>
+    </ClCompile>
     <ClCompile Include="Container.cpp" />
     <ClCompile Include="DecimalPlacesConverter.cpp" />
     <ClCompile Include="DelegateCommand.cpp" />
@@ -346,11 +364,13 @@
     <ClCompile Include="DXUtils.cpp" />
     <ClCompile Include="GlyphConverter.cpp" />
     <ClCompile Include="ImgUtils.cpp" />
+    <ClCompile Include="LoadingWrapper.cpp" />
     <ClCompile Include="ModelBufferManager.cpp" />
     <ClCompile Include="RenderTexture.cpp" />
     <ClCompile Include="Scene\SceneContext.cpp" />
     <ClCompile Include="ShaderCache.cpp" />
     <ClCompile Include="sub_token.cpp" />
+    <ClCompile Include="ViewModels\ConnectPageViewModel.cpp" />
     <ClCompile Include="ViewModels\TransformViewModel.cpp" />
     <ClCompile Include="ViewModels\DirectXPageViewModel.cpp" />
     <ClCompile Include="DXGrid.cpp" />
@@ -389,6 +409,7 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <None Include="ModelViewer_TemporaryKey.pfx" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Shaders\pbrpixel.hlsl">
@@ -414,6 +435,9 @@
     <ApplicationDefinition Include="App.xaml">
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="ConnectPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="DirectXPage.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -461,5 +485,12 @@
     <Import Project="$(VSINSTALLDIR)\Common7\IDE\Extensions\Microsoft\VsGraphics\ImageContentTask.targets" />
     <Import Project="$(VSINSTALLDIR)\Common7\IDE\Extensions\Microsoft\VsGraphics\MeshContentTask.targets" />
     <Import Project="$(VSINSTALLDIR)\Common7\IDE\Extensions\Microsoft\VsGraphics\ShaderGraphContentTask.targets" />
+    <Import Project="..\packages\Microsoft.Holographic.Remoting.2.0.14\build\native\Microsoft.Holographic.Remoting.targets" Condition="Exists('..\packages\Microsoft.Holographic.Remoting.2.0.14\build\native\Microsoft.Holographic.Remoting.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Holographic.Remoting.2.0.14\build\native\Microsoft.Holographic.Remoting.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Holographic.Remoting.2.0.14\build\native\Microsoft.Holographic.Remoting.targets'))" />
+  </Target>
 </Project>
