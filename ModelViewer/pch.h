@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+#include <robuffer.h>  
 #include <wrl.h>
 #include <wrl/client.h>
 #include <robuffer.h>  
@@ -16,7 +17,7 @@
 #include <concrt.h>
 #include <collection.h>
 #include "App.xaml.h"
-#include "Utility.h"
+#include "Utility.h" 
 
 #include <future>
 #include <experimental/resumable>
@@ -28,6 +29,7 @@
 
 #include "ViewModels/RootPageViewModel.h"
 #include "ViewModels/DirectXPageViewModel.h"
+#include "ViewModels/ConnectPageViewModel.h"
 #include "GlyphConverter.h"
 #include "BooleanToVisibilityConverter.h"
 #include "FileSystemData.h"

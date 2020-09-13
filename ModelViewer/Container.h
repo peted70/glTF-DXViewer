@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include "RemoteRenderer.h"
 
 class Container
 {
@@ -22,6 +23,13 @@ public:
 		if (_dxPageVMData == nullptr)
 			_dxPageVMData = make_shared<DirectXPageViewModelData>();
 		return _dxPageVMData;
+	}
+
+	shared_ptr<RemoteRenderer> ResolveRemoteRenderer()
+	{
+		if (_remoteRenderer == nullptr)
+			_remoteRenderer = make_shared<RemoteRenderer>();
+		return _remoteRenderer;
 	}
 
 private:
