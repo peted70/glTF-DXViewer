@@ -102,7 +102,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <PackageCertificateKeyFile>ModelViewer_TemporaryKey.pfx</PackageCertificateKeyFile>
-    <PackageCertificateThumbprint>64C511ACB01CB0952A3C2E6A44037AF1FD0B04E7</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>0D1A6C3B5F0BAC676C6E4EB9235F070B1AD09448</PackageCertificateThumbprint>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
@@ -296,6 +296,7 @@
     <ClInclude Include="FileSystemData.h" />
     <ClInclude Include="GlyphConverter.h" />
     <ClInclude Include="ImgUtils.h" />
+    <ClInclude Include="LoadingWrapper.h" />
     <ClInclude Include="ModelBufferManager.h" />
     <ClInclude Include="RenderTexture.h" />
     <ClInclude Include="Scene\SceneContext.h" />
@@ -351,6 +352,7 @@
     <ClCompile Include="DXUtils.cpp" />
     <ClCompile Include="GlyphConverter.cpp" />
     <ClCompile Include="ImgUtils.cpp" />
+    <ClCompile Include="LoadingWrapper.cpp" />
     <ClCompile Include="ModelBufferManager.cpp" />
     <ClCompile Include="RenderTexture.cpp" />
     <ClCompile Include="Scene\SceneContext.cpp" />

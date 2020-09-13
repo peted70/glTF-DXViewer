@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Common/ViewModelBase.h"
-#include <winrt/Microsoft.Holographic.AppRemoting.h>
-#include <winrt/Windows.Graphics.Holographic.h>
+//#include <winrt/Microsoft.Holographic.AppRemoting.h>
+//#include <winrt/Windows.Graphics.Holographic.h>
 #include "Common/HolographicDeviceResources.h"
 
 namespace ViewModels
@@ -23,7 +23,7 @@ namespace ViewModels
 		void ExecuteConnectCommand(Object^ param);
 		std::future<void> ConnectAsync();
 
-		void OnRemoteConnected(winrt::Microsoft::Holographic::AppRemoting::RemoteContext context);
+		//void OnRemoteConnected(winrt::Microsoft::Holographic::AppRemoting::RemoteContext context);
 		std::future<void> SetStatusTextAsync(wchar_t* text);
 
 		bool _loading = false;

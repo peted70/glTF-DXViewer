@@ -137,16 +137,6 @@
     </ClCompile>
     <ClCompile Include="sub_token.cpp" />
     <ClCompile Include="LoadingWrapper.cpp" />
-    <ClCompile Include="ViewModels\ConnectPageViewModel.cpp">
-      <Filter>ViewModels</Filter>
-    </ClCompile>
-    <ClCompile Include="Common\HolographicDeviceResources.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="Common\CameraResources.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="RemoteRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.xaml.h" />
@@ -220,19 +210,6 @@
     <ClInclude Include="Subject.h" />
     <ClInclude Include="sub_token.h" />
     <ClInclude Include="LoadingWrapper.h" />
-    <ClInclude Include="ViewModels\ConnectPageViewModel.h">
-      <Filter>ViewModels</Filter>
-    </ClInclude>
-    <ClInclude Include="Common\HolographicDeviceResources.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="IDeviceNotify.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="Common\CameraResources.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="RemoteRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\StoreLogo.png">
@@ -465,12 +442,10 @@
     <None Include="ModelViewer_TemporaryKey.pfx" />
     <None Include="Assets\Shaders\pbrpixel.hlsl" />
     <None Include="Assets\Shaders\pbrvertex.hlsl" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="DirectXPage.xaml" />
     <Page Include="RootPage.xaml" />
-    <Page Include="ConnectPage.xaml" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Content\SimplePixelShader.hlsl">

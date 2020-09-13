@@ -6,7 +6,7 @@
 #include "pch.h"
 #include "RootPage.xaml.h"
 #include "DirectXPage.xaml.h"
-#include "ConnectPage.xaml.h"
+//#include "ConnectPage.xaml.h"
 #include <ppltasks.h>
 #include <experimental/resumable>
 #include <pplawait.h>
@@ -74,7 +74,7 @@ void ModelViewer::RootPage::NavView_ItemInvoked(Windows::UI::Xaml::Controls::Nav
 	}
 	else if (tag == "connect")
 	{
-		ContentFrame->Navigate(ConnectPage::typeid);
+		//ContentFrame->Navigate(ConnectPage::typeid);
 	}
 }
 

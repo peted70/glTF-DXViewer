@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "ConnectPageViewModel.h"
 #include "DelegateCommand.h"
-#include "LoadingWrapper.h"
+//#include "LoadingWrapper.h"
 #include <pplawait.h>
 #include <chrono>
 #include <HolographicAppRemoting\Streamer.h>
@@ -52,7 +52,7 @@ future<void> ConnectPageViewModel::ConnectAsync()
 	StatusText = L"";
 
 	// RAII-style for ensuring that the progress gets cleared robustly
-	auto loader = make_unique<LoadingWrapper>([this]() { Loading = true; }, [this]() { Loading = false; });
+	//auto loader = make_unique<LoadingWrapper>([this]() { Loading = true; }, [this]() { Loading = false; });
 
 	// Just a dummy async wait while testing... 
 	co_await 1s;
