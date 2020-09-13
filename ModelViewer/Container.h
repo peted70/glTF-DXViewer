@@ -3,8 +3,6 @@
 #include <iostream>
 #include "RemoteRenderer.h"
 
-using namespace std;
-
 class Container
 {
 public:
@@ -20,7 +18,7 @@ public:
 		return injector.create<T>();
 	}
 
-	shared_ptr<DirectXPageViewModelData> ResolveDirectXPageViewModelData()
+	std::shared_ptr<DirectXPageViewModelData> ResolveDirectXPageViewModelData()
 	{
 		if (_dxPageVMData == nullptr)
 			_dxPageVMData = make_shared<DirectXPageViewModelData>();
@@ -38,8 +36,7 @@ private:
 	Container() 
 	{
 	}
-	shared_ptr<DirectXPageViewModelData> _dxPageVMData;
-	shared_ptr<RemoteRenderer> _remoteRenderer;
+	std::shared_ptr<DirectXPageViewModelData> _dxPageVMData;
 };
 
 
