@@ -27,19 +27,19 @@ public:
 		return _dxPageVMData;
 	}
 
-	shared_ptr<RemoteRenderer> ResolveRemoteRenderer()
-	{
-		if (_remoteRenderer == nullptr)
-			_remoteRenderer = make_shared<RemoteRenderer>();
-		return _remoteRenderer;
-	}
+	//shared_ptr<RemoteRenderer> ResolveRemoteRenderer()
+	//{
+	//	if (_remoteRenderer == nullptr)
+	//		_remoteRenderer = make_shared<RemoteRenderer>();
+	//	return _remoteRenderer;
+	//}
 
 private:
 	Container() 
 	{
 	}
 	shared_ptr<DirectXPageViewModelData> _dxPageVMData;
-	shared_ptr<RemoteRenderer> _remoteRenderer;
+	//shared_ptr<RemoteRenderer> _remoteRenderer;
 };
 
 

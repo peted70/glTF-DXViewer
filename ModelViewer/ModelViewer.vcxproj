@@ -102,7 +102,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <PackageCertificateKeyFile>ModelViewer_TemporaryKey.pfx</PackageCertificateKeyFile>
-    <PackageCertificateThumbprint>64C511ACB01CB0952A3C2E6A44037AF1FD0B04E7</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>C8C63CDBD9AE183ED3614A0E1293D37A6314D9DD</PackageCertificateThumbprint>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">

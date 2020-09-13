@@ -30,7 +30,7 @@ namespace ViewModels
 		Platform::String^ _statusText;
 		Platform::String^ _ipAddress = L"127.0.0.1";
 
-		std::shared_ptr<RemoteRenderer> _remoteRenderer;
+		//std::shared_ptr<RemoteRenderer> _remoteRenderer;
 	};
 }
 

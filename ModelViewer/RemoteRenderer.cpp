@@ -1,4 +1,6 @@
 #include "pch.h"
+
+#ifdef REMOTE_RENDER
 #include "RemoteRenderer.h"
 #include <HolographicAppRemoting\Streamer.h>
 
@@ -288,3 +290,4 @@ future<void> RemoteRenderer::ConnectAsync(const wchar_t* ipAddress)
 			_remoteContext.Connect(ipAddress, 8265);
 		});
 }
+#endif

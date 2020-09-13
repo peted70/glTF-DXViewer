@@ -11,7 +11,7 @@ using namespace Concurrency;
 ModelViewerMain::ModelViewerMain(const shared_ptr<DeviceResources>& deviceResources) :
 	m_deviceResources(deviceResources), m_pointerLocationX(0.0f)
 {
-	m_remoteRenderer = Container::Instance().ResolveRemoteRenderer();
+	//m_remoteRenderer = Container::Instance().ResolveRemoteRenderer();
 
 	// Register to be notified if the Device is lost or recreated
 	m_deviceResources->RegisterDeviceNotify(this);

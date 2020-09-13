@@ -49,7 +49,7 @@ namespace ModelViewer
 
 		// Cached pointer to device resources.
 		shared_ptr<DeviceResources> m_deviceResources;
-		shared_ptr<RemoteRenderer> m_remoteRenderer;
+		//shared_ptr<RemoteRenderer> m_remoteRenderer;
 
 		// TODO: Replace with your own content renderers.
 		unique_ptr<Sample3DSceneRenderer> m_sceneRenderer;

@@ -1,4 +1,5 @@
 #pragma once
+#ifdef REMOTE_RENDER
 
 #include <Common\HolographicDeviceResources.h>
 
@@ -28,8 +29,6 @@ private:
 		const winrt::Windows::Graphics::Holographic::HolographicSpace& sender,
 		const winrt::Windows::Graphics::Holographic::HolographicSpaceCameraRemovedEventArgs& args);
 
-	// RemoteContext used to connect with a Holographic Remoting player and display rendered frames
-	winrt::Microsoft::Holographic::AppRemoting::RemoteContext _remoteContext = nullptr;
 	winrt::Windows::Graphics::Holographic::HolographicSpace _holographicSpace = nullptr;
 	std::shared_ptr<DXHelper::HolographicDeviceResources> _deviceResources = nullptr;
 
@@ -42,11 +41,8 @@ private:
 	winrt::event_token _cameraAddedToken;
 	winrt::event_token _cameraRemovedToken;
 
-	winrt::Microsoft::Holographic::AppRemoting::IRemoteContext::OnConnected_revoker _onConnectedEventRevoker;
-	winrt::Microsoft::Holographic::AppRemoting::IRemoteContext::OnDisconnected_revoker _onDisconnectedEventRevoker;
-	winrt::Microsoft::Holographic::AppRemoting::IRemoteContext::OnListening_revoker _onListeningEventRevoker;
-
 	std::function<void(wchar_t*)> _statusUpdated = {};
 	std::unique_ptr<SceneContext> _context;
 };
 
+#endif

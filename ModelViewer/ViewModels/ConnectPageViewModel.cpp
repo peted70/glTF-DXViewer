@@ -17,7 +17,7 @@ using namespace winrt;
 ConnectPageViewModel::ConnectPageViewModel()
 {
 	ConnectCommand = ref new DelegateCommand(ref new ExecuteDelegate(this, &ConnectPageViewModel::ExecuteConnectCommand), nullptr);
-	_remoteRenderer = Container::Instance().ResolveRemoteRenderer();
+	//_remoteRenderer = Container::Instance().ResolveRemoteRenderer();
 }
 
 void ConnectPageViewModel::ExecuteConnectCommand(Object^ param)
@@ -58,12 +58,12 @@ future<void> ConnectPageViewModel::ConnectAsync()
 	co_await 1s;
 
 	// Create on a thread pool thread?
-	_remoteRenderer->RegisterForStatusUpdates([this](wchar_t *text)
-		{
-			SetStatusTextAsync(text);
-		});
+	//_remoteRenderer->RegisterForStatusUpdates([this](wchar_t *text)
+	//	{
+	//		SetStatusTextAsync(text);
+	//	});
 
-	co_await _remoteRenderer->ConnectAsync(_ipAddress->Data());
+	//co_await _remoteRenderer->ConnectAsync(_ipAddress->Data());
 	co_return;
 }
 
