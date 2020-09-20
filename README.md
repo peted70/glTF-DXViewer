@@ -1,4 +1,5 @@
 # DirectX GLTF Viewer Sample 
+
 [![Build Status](https://dev.azure.com/gltf-dx-viewer/glTF-DXViewer/_apis/build/status/peted70.glTF-DXViewer?branchName=master)](https://dev.azure.com/gltf-dx-viewer/glTF-DXViewer/_build/latest?definitionId=1&branchName=master)
 
 This project was motivated by a lack of sample code demonstrating the graphics API agnostic nature of the [glTF specification](https://www.google.com). The sample code is written using modern C++, DirectX 11 and the Universal Windows Platform (UWP) for the client application. The client application could have been written using any application development platform that supports DirectX 11 rendering. This sample is a port of the [Khronos PBR WebGL Sample](https://github.com/KhronosGroup/glTF-WebGL-PBR) and supports the same feature set.
