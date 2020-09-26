@@ -237,7 +237,12 @@ void MeshNode::CreateBuffer(WinRTGLTFParser::GLTF_BufferData ^ data)
 {
 	// properties to key the buffer from.. need to be unique for a particular
 	// GLB file...
-	BufferDescriptor descriptor(data, DevResources());
+	BufferDescriptor descriptor(DevResources(), 
+		data->BufferDescription->BufferContentType->Data(), 
+		data->BufferDescription->accessorIdx,
+		static_cast<void *>(data->BufferDescription->pSysMem),
+		data->SubResource->ByteWidth,
+		data->SubResource->StructureByteStride);
 
 	auto bufferCache = ModelBufferManager::Instance().CurrentBufferCache();
 

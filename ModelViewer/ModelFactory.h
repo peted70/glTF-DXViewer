@@ -20,6 +20,8 @@ class ModelFactory : public Singleton<ModelFactory>
 	
 public:
 	future<shared_ptr<GraphNode>> CreateFromFileAsync(StorageFile^ file);
+	future<shared_ptr<GraphNode>> CreateCubeAsync();
+
 	void CreateSceneNode(GLTF_SceneNodeData^ data);
 	GraphNode *InitialiseMesh(GLTF_SceneNodeData^ data);
 	void CreateBuffer(GLTF_BufferData^ data);

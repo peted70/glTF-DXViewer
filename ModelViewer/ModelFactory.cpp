@@ -118,3 +118,39 @@ future<shared_ptr<GraphNode>> ModelFactory::CreateFromFileAsync(StorageFile^ fil
 	sp.reset(_root);
 	co_return sp;
 }
+
+future<shared_ptr<GraphNode>> ModelFactory::CreateCubeAsync()
+{
+	auto mesh = new MeshNode(-1);
+
+	auto devResources = SceneManager::Instance().DevResources();
+	mesh->Initialise(devResources);
+
+	mesh->SetName(L"Cube");
+
+	static const XMFLOAT3 vertices[] =
+	{
+		XMFLOAT3(0.5f, 0.5f, 0.5f),
+		XMFLOAT3(-0.5f, 0.5f, 0.5f),
+		XMFLOAT3(-0.5f, 0.5f, -0.5f),
+		XMFLOAT3(0.5f, 0.5f, -0.5f),
+
+		XMFLOAT3(0.5f, -0.5f, 0.5f),
+		XMFLOAT3(-0.5f, -0.5f, 0.5f),
+		XMFLOAT3(-0.5f, -0.5f, -0.5f),
+		XMFLOAT3(0.5f, -0.5f, -0.5f),
+	};
+
+	// For a cube we will need positon, index, texcoords and normal buffers..
+	//auto bd = ref new GLTF_BufferData();
+	//bd->BufferDescription->BufferContentType = L"POSITION";
+	//bd->BufferDescription->Count = 8;
+	//bd->BufferDescription->SysMemPitch = 0;
+	//bd->BufferDescription->SysMemSlicePitch = 0;
+	//bd->BufferDescription->pSysMem = (IntPtr)vertices;
+
+	//mesh->CreateBuffer()
+
+	shared_ptr<GraphNode> sp;
+	co_return sp;
+}

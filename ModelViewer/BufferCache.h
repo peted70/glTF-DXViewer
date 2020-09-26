@@ -9,9 +9,14 @@ using namespace DX;
 class BufferDescriptor
 {
 public:
-	BufferDescriptor(GLTF_BufferData ^ data, shared_ptr<DeviceResources> deviceResources) :
-		_data(data),
-		_deviceResources(deviceResources)
+	BufferDescriptor(shared_ptr<DeviceResources> deviceResources, wstring bufferContentType, int accessorId,
+		void *sysMem, size_t byteWidth, size_t structureByteStride) :
+		_deviceResources(deviceResources),
+		_bufferContentType(bufferContentType),
+		_accessorIdx(accessorId),
+		_sysMem(sysMem),
+		_byteWidth(byteWidth),
+		_structureByteStride(structureByteStride)
 	{
 	}
 	shared_ptr<DeviceResources> DevResources() { return _deviceResources; }
@@ -19,17 +24,22 @@ public:
 
 	size_t Hash();
 
-	const wchar_t *ContentType() const { return _data->BufferDescription->BufferContentType->Data(); }
-	unsigned int AccessorIdx() const { return _data->BufferDescription->accessorIdx; }
+	const wstring ContentType() const { return _bufferContentType; }
+	unsigned int AccessorIdx() const { return _accessorIdx; }
 
-	GLTF_BufferData^ Data() { return _data; }
+	void* SysMem() const { return _sysMem; }
+	size_t ByteWidth() const { return _byteWidth; }
+	size_t StructureByteStride() const { return _structureByteStride; }
 
 private:
 	bool _hashCalculated = false;
 	shared_ptr<DeviceResources> _deviceResources;
 	size_t _hash;
 	unsigned int _accessorIdx;
-	GLTF_BufferData ^ _data;
+	wstring _bufferContentType;
+	void* _sysMem;
+	size_t _byteWidth;
+	size_t _structureByteStride;
 };
 
 template <>
@@ -39,7 +49,7 @@ struct hash<BufferDescriptor>
 	{
 		size_t res = 0;
 		hash<const wchar_t *> myHash;
-		res ^= myHash(descriptor.ContentType());
+		res ^= myHash(descriptor.ContentType().c_str());
 		hash<unsigned int> myHash2;
 		res ^= myHash2(descriptor.AccessorIdx());
 		return res;
@@ -72,13 +82,13 @@ public:
 		auto ret = make_shared<ID3D11BufferWrapper>();
 
 		int bindFlags = 0;
-		if (descriptor.Data()->BufferDescription->BufferContentType == L"POSITION" ||
-			descriptor.Data()->BufferDescription->BufferContentType == L"NORMAL" ||
-			descriptor.Data()->BufferDescription->BufferContentType == L"TEXCOORD_0")
+		if (descriptor.ContentType() == L"POSITION" ||
+			descriptor.ContentType() == L"NORMAL" ||
+			descriptor.ContentType() == L"TEXCOORD_0")
 		{
 			bindFlags = D3D11_BIND_VERTEX_BUFFER;
 		}
-		else if (descriptor.Data()->BufferDescription->BufferContentType == L"INDICES")
+		else if (descriptor.ContentType() == L"INDICES")
 		{
 			bindFlags = D3D11_BIND_INDEX_BUFFER;
 		}
@@ -88,22 +98,22 @@ public:
 			return ret;
 		}
 
-		if (descriptor.Data()->BufferDescription->BufferContentType == L"POSITION")
+		if (descriptor.ContentType() == L"POSITION")
 		{
 			ret->SetBoundingBox(
 				BoundingBox<float>::CreateBoundingBoxFromVertexBuffer(
-				(void *)descriptor.Data()->BufferDescription->pSysMem, descriptor.Data()->SubResource->ByteWidth)
+				(void *)descriptor.SysMem(), descriptor.ByteWidth())
 			);
 		}
 
 		// Create the buffers...
 		D3D11_SUBRESOURCE_DATA vertexBufferData = { 0 };
-		vertexBufferData.pSysMem = (void *)descriptor.Data()->BufferDescription->pSysMem;
+		vertexBufferData.pSysMem = (void *)descriptor.SysMem();
 		vertexBufferData.SysMemPitch = 0;
 		vertexBufferData.SysMemSlicePitch = 0;
 
-		CD3D11_BUFFER_DESC vertexBufferDesc(static_cast<unsigned int>(descriptor.Data()->SubResource->ByteWidth), bindFlags);
-		vertexBufferDesc.StructureByteStride = static_cast<unsigned int>(descriptor.Data()->SubResource->StructureByteStride);
+		CD3D11_BUFFER_DESC vertexBufferDesc(static_cast<unsigned int>(descriptor.ByteWidth()), bindFlags);
+		vertexBufferDesc.StructureByteStride = static_cast<unsigned int>(descriptor.StructureByteStride());
 
 		auto device = descriptor.DevResources()->GetD3DDevice();
 		ThrowIfFailed(device->CreateBuffer(&vertexBufferDesc, &vertexBufferData, ret->AddressOfBuffer()));

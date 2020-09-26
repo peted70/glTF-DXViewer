@@ -20,6 +20,8 @@ ModelViewerMain::ModelViewerMain(const shared_ptr<DeviceResources>& deviceResour
 	m_fpsTextRenderer = unique_ptr<SampleFpsTextRenderer>(new SampleFpsTextRenderer(m_deviceResources));
 	m_sceneRenderer = unique_ptr<Sample3DSceneRenderer>(new Sample3DSceneRenderer(m_deviceResources));
 
+	m_renderTexture->Initialize(320, 256);
+
 	// TODO: Change the timer settings if you want something other than the default variable timestep mode.
 	// e.g. for 60 FPS fixed timestep update logic, call:
 	/*
@@ -32,6 +34,7 @@ ModelViewerMain::~ModelViewerMain()
 {
 	// Deregister device notification
 	m_deviceResources->RegisterDeviceNotify(nullptr);
+	m_renderTexture->Shutdown();
 }
 
 // Updates application state when the window size changes (e.g. device orientation change)
@@ -124,6 +127,11 @@ bool ModelViewerMain::Render()
 	// TODO: Replace this with your app's content rendering functions.
 	m_sceneRenderer->Render();
 	m_fpsTextRenderer->Render();
+
+	//m_renderTexture->SetRenderTarget(m_deviceResources->GetDepthStencilView());
+	//m_renderTexture->ClearRenderTarget(m_deviceResources->GetDepthStencilView(), _backgroundColour);
+	//m_sceneRenderer->Render();
+	//m_fpsTextRenderer->Render();
 
 	// Putting this here for now but bear in mind it might make more ense for this to be called from elsewhere..
 	// The general scheme is to use the HolographicSpace to retrieve the next HolographicFrame then we render to 
