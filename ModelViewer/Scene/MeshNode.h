@@ -11,11 +11,15 @@
 #include "BoundingBox.h"
 #include "ShaderCache.h"
 
+#include "BufferCache.h"
+
 using namespace WinRTGLTFParser;
 using namespace Microsoft::WRL;
 using namespace std;
 using namespace DX;
 using namespace DirectX;
+
+class BufferDescriptor;
 
 class MeshNode : public GraphContainerNode
 {
@@ -31,6 +35,9 @@ public:
 	virtual void Initialise(const shared_ptr<DeviceResources>& deviceResources);
 	virtual void AfterLoad();
 
+	void CreateBuffer(const BufferDescriptor& bd);
+	void CreateMaterial(const MaterialDescriptor& md);
+
 	void CreateBuffer(GLTF_BufferData^ data);
 	void CreateTexture(GLTF_TextureData^ data);
 	void CreateMaterial(GLTF_MaterialData^ data);
@@ -40,18 +47,15 @@ private:
 	class BufferWrapper
 	{
 	public:
-		BufferWrapper(GLTF_BufferData^ data, ComPtr<ID3D11Buffer> buffer) :
-			_data(data),
-			_buffer(buffer)
-		{
-		}
-		BufferWrapper() {}
+		BufferWrapper(BufferDescriptor data, ComPtr<ID3D11Buffer> buffer);
+		BufferWrapper();
+
 		ComPtr<ID3D11Buffer>& Buffer() { return _buffer; }
 
-		GLTF_BufferData^ Data() { return _data; }
+		const BufferDescriptor& Data() { return _data; }
 
 	private:
-		GLTF_BufferData ^ _data;
+		BufferDescriptor _data;
 		ComPtr<ID3D11Buffer> _buffer;
 	};
 

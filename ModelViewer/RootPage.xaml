@@ -79,6 +79,17 @@
                             DefaultLabelPosition="Right"
                             Background="{ThemeResource SystemControlBackgroundAltHighBrush}">
                         <AppBarButton Style="{ThemeResource AppBarButtonRevealStyle}" Label="Import" Icon="Import" Command="{x:Bind LoadFileCommand}"/>
+                        <AppBarButton Style="{ThemeResource AppBarButtonRevealStyle}" Label="Create" Icon="Add">
+                            <AppBarButton.Flyout>
+                                <MenuFlyout>
+                                    <MenuFlyoutItem Name="Cube" Command="{x:Bind CreateCubeCommand}" Text="Cube" HorizontalAlignment="Stretch"/>
+                                    <MenuFlyoutItem Name="Sphere" Command="{x:Bind CreateSphereCommand}" Text="Sphere" HorizontalAlignment="Stretch"/>
+                                    <MenuFlyoutItem Name="Cylinder" Command="{x:Bind CreateCylinderCommand}" Text="Cylinder" HorizontalAlignment="Stretch"/>
+                                    <MenuFlyoutItem Name="Cone" Command="{x:Bind CreateConeCommand}" Text="Cone" HorizontalAlignment="Stretch"/>
+                                    <MenuFlyoutItem Name="Torus" Command="{x:Bind CreateTorusCommand}" Text="Torus" HorizontalAlignment="Stretch"/>
+                                </MenuFlyout>
+                            </AppBarButton.Flyout>
+                        </AppBarButton>
                     </CommandBar>
                 </Grid>
             </DataTemplate>

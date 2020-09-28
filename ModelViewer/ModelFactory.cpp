@@ -130,27 +130,45 @@ future<shared_ptr<GraphNode>> ModelFactory::CreateCubeAsync()
 
 	static const XMFLOAT3 vertices[] =
 	{
-		XMFLOAT3(0.5f, 0.5f, 0.5f),
-		XMFLOAT3(-0.5f, 0.5f, 0.5f),
 		XMFLOAT3(-0.5f, 0.5f, -0.5f),
 		XMFLOAT3(0.5f, 0.5f, -0.5f),
-
-		XMFLOAT3(0.5f, -0.5f, 0.5f),
-		XMFLOAT3(-0.5f, -0.5f, 0.5f),
 		XMFLOAT3(-0.5f, -0.5f, -0.5f),
 		XMFLOAT3(0.5f, -0.5f, -0.5f),
+
+		XMFLOAT3(-0.5f, 0.5f, 0.5f),
+		XMFLOAT3(0.5f, 0.5f, 0.5f),
+		XMFLOAT3(-0.5f, -0.5f, 0.5f),
+		XMFLOAT3(0.5f, -0.5f, 0.5f),
 	};
 
-	// For a cube we will need positon, index, texcoords and normal buffers..
-	//auto bd = ref new GLTF_BufferData();
-	//bd->BufferDescription->BufferContentType = L"POSITION";
-	//bd->BufferDescription->Count = 8;
-	//bd->BufferDescription->SysMemPitch = 0;
-	//bd->BufferDescription->SysMemSlicePitch = 0;
-	//bd->BufferDescription->pSysMem = (IntPtr)vertices;
+	short indices[] =
+	{
+		0, 1, 2,    // side 1
+		2, 1, 3,
+		4, 0, 6,    // side 2
+		6, 0, 2,
+		7, 5, 6,    // side 3
+		6, 5, 4,
+		3, 1, 7,    // side 4
+		7, 1, 5,
+		4, 5, 0,    // side 5
+		0, 5, 1,
+		3, 7, 2,    // side 6
+		2, 7, 6,
+	};
 
-	//mesh->CreateBuffer()
+	BufferDescriptor bdverts(devResources, wstring(L"POSITION"), 0, (void *)(vertices), sizeof(XMFLOAT3)*8, 0, 8);
+	mesh->CreateBuffer(bdverts);
+	BufferDescriptor bdindices(devResources, wstring(L"INDICES"), 0, (void*)(indices), sizeof(int)*12, 0, 12);
+	mesh->CreateBuffer(bdindices);
+
+	MaterialDescriptor md(L"Cube Material");
+
+	mesh->CreateMaterial(md);
+
+	mesh->AfterLoad();
 
 	shared_ptr<GraphNode> sp;
+	sp.reset(mesh);
 	co_return sp;
 }

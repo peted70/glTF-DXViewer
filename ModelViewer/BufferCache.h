@@ -2,6 +2,7 @@
 
 #include "BoundingBox.h"
 #include "Common\DirectXHelper.h"
+#include "Utility.h"
 
 using namespace Microsoft::WRL;
 using namespace DX;
@@ -10,15 +11,17 @@ class BufferDescriptor
 {
 public:
 	BufferDescriptor(shared_ptr<DeviceResources> deviceResources, wstring bufferContentType, int accessorId,
-		void *sysMem, size_t byteWidth, size_t structureByteStride) :
+		void *sysMem, size_t byteWidth, size_t structureByteStride, size_t count) :
 		_deviceResources(deviceResources),
 		_bufferContentType(bufferContentType),
 		_accessorIdx(accessorId),
 		_sysMem(sysMem),
 		_byteWidth(byteWidth),
-		_structureByteStride(structureByteStride)
+		_structureByteStride(structureByteStride),
+		_count(count)
 	{
 	}
+	BufferDescriptor() {}
 	shared_ptr<DeviceResources> DevResources() { return _deviceResources; }
 	const shared_ptr<DeviceResources> DevResources() const { return _deviceResources; }
 
@@ -30,6 +33,7 @@ public:
 	void* SysMem() const { return _sysMem; }
 	size_t ByteWidth() const { return _byteWidth; }
 	size_t StructureByteStride() const { return _structureByteStride; }
+	size_t Count() const { return _count; }
 
 private:
 	bool _hashCalculated = false;
@@ -40,6 +44,7 @@ private:
 	void* _sysMem;
 	size_t _byteWidth;
 	size_t _structureByteStride;
+	size_t _count;
 };
 
 template <>

@@ -160,7 +160,7 @@ void MeshNode::Draw(SceneContext& context, XMMATRIX model)
 	if (indices != _buffers.end())
 	{
 		indexed = true;
-		m_indexCount = indices->second.Data()->BufferDescription->Count;
+		m_indexCount = indices->second.Data().Count();
 		context.context().IASetIndexBuffer(
 			indices->second.Buffer().Get(),
 			DXGI_FORMAT_R16_UINT, // Each index is one 16-bit unsigned integer (short).
@@ -233,6 +233,16 @@ void BoundingSphereFromBoundingBox()
 
 }
 
+void MeshNode::CreateBuffer(const BufferDescriptor& bd)
+{
+	auto bufferCache = ModelBufferManager::Instance().CurrentBufferCache();
+
+	auto bufferWrapper = bufferCache->FindOrCreateBuffer(bd);
+
+	BufferWrapper bw(bd, bufferWrapper->Buffer());
+	_buffers[bd.ContentType()] = bw;
+}
+
 void MeshNode::CreateBuffer(WinRTGLTFParser::GLTF_BufferData ^ data)
 {
 	// properties to key the buffer from.. need to be unique for a particular
@@ -242,21 +252,32 @@ void MeshNode::CreateBuffer(WinRTGLTFParser::GLTF_BufferData ^ data)
 		data->BufferDescription->accessorIdx,
 		static_cast<void *>(data->BufferDescription->pSysMem),
 		data->SubResource->ByteWidth,
-		data->SubResource->StructureByteStride);
+		data->SubResource->StructureByteStride,
+		data->BufferDescription->Count);
 
-	auto bufferCache = ModelBufferManager::Instance().CurrentBufferCache();
-
-	auto bufferWrapper = bufferCache->FindOrCreateBuffer(descriptor);
-
-	wstring type(data->BufferDescription->BufferContentType->Data());
-	BufferWrapper bw(data, bufferWrapper->Buffer());
-	_buffers[type] = bw;
+	CreateBuffer(descriptor);
 }
 
 void MeshNode::CreateMaterial(GLTF_MaterialData ^ data)
 {
+	MaterialDescriptor md(data->MaterialName->Data());
+	md.setBaseColorFactor(data->baseColourFactor[0], data->baseColourFactor[1], data->baseColourFactor[2], data->baseColourFactor[3]);
+	md.setEmissiveFactor(data->emmissiveFactor[0], data->emmissiveFactor[1], data->emmissiveFactor[2]);
+	md.setEmissiveTexture(data->Emissivetexture);
+	md.setMetallicFactor(data->metallicFactor);
+	md.setNormalTexture(data->Normaltexture);
+	md.setOcclusionTexture(data->Occlusiontexture);
+	md.setPbrmetallicroughness_Basecolortexture(data->Pbrmetallicroughness_Basecolortexture);
+	md.setPbrmetallicroughness_Metallicroughnesstexture(data->Pbrmetallicroughness_Metallicroughnesstexture);
+	md.setRoughnessFactor(data->roughnessFactor);
+
+	CreateMaterial(md);
+}
+
+void MeshNode::CreateMaterial(const MaterialDescriptor& md)
+{
 	_material = make_shared<NodeMaterial>();
-	_material->Initialise(data);
+	_material->Initialise(md);
 }
 
 void MeshNode::CreateTransform(GLTF_TransformData^ data)
@@ -301,6 +322,16 @@ void MeshNode::CreateTransform(GLTF_TransformData^ data)
 		// Prepare to pass the updated model matrix to the shader 
 		XMStoreFloat4x4(&BufferManager::Instance().MVPBuffer().BufferData().model, XMMatrixTranspose(matrix));
 	}
+}
+
+MeshNode::BufferWrapper::BufferWrapper(BufferDescriptor data, ComPtr<ID3D11Buffer> buffer) :
+	_data(data),
+	_buffer(buffer)
+{
+}
+
+MeshNode::BufferWrapper::BufferWrapper() 
+{
 }
 
 void MeshNode::CreateTexture(WinRTGLTFParser::GLTF_TextureData ^ data)

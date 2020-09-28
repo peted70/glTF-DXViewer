@@ -9,23 +9,25 @@ NodeMaterial::~NodeMaterial()
 {
 }
 
-void NodeMaterial::Initialise(GLTF_MaterialData^ data)
+void NodeMaterial::Initialise(const MaterialDescriptor& data)
 {
-	_name = data->MaterialName->Data();
-	_Emissivetexture = data->Emissivetexture;
-	_Normaltexture = data->Normaltexture;
-	_Occlusiontexture = data->Occlusiontexture;
-	_Pbrmetallicroughness_Basecolortexture = data->Pbrmetallicroughness_Basecolortexture;
-	_Pbrmetallicroughness_Metallicroughnesstexture = data->Pbrmetallicroughness_Metallicroughnesstexture;
-	_emmissiveFactor.x = data->emmissiveFactor[0];
-	_emmissiveFactor.y = data->emmissiveFactor[1];
-	_emmissiveFactor.z = data->emmissiveFactor[2];
-	_baseColorFactor.x = data->baseColourFactor[0];
-	_baseColorFactor.y = data->baseColourFactor[1];
-	_baseColorFactor.z = data->baseColourFactor[2];
-	_baseColorFactor.w = data->baseColourFactor[3];
-	_metallicFactor = data->metallicFactor;
-	_roughnessFactor = data->roughnessFactor;
+	_name = data.getName();
+	_Emissivetexture = data.getEmissiveTexture();
+	_Normaltexture = data.getNormalTexture();
+	_Occlusiontexture = data.getOcclusionTexture();
+	_Pbrmetallicroughness_Basecolortexture = data.getPbrmetallicroughness_Basecolortexture();
+	_Pbrmetallicroughness_Metallicroughnesstexture = data.getPbrmetallicroughness_Metallicroughnesstexture();
+	const float* ef = data.getEmissiveFactor();
+	_emmissiveFactor.x = ef[0];
+	_emmissiveFactor.y = ef[1];
+	_emmissiveFactor.z = ef[2];
+	const float* bcf = data.getBaseColorFactor();
+	_baseColorFactor.x = bcf[0];
+	_baseColorFactor.y = bcf[1];
+	_baseColorFactor.z = bcf[2];
+	_baseColorFactor.w = bcf[3];
+	_metallicFactor = data.getMetallicFactor();
+	_roughnessFactor = data.getRoughnessFactor();
 }
 
 shared_ptr<TextureWrapper> NodeMaterial::HasTextureId(unsigned int idx)

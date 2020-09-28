@@ -65,6 +65,9 @@
     <Filter Include="ViewModels">
       <UniqueIdentifier>{7881bd15-6b0c-4de7-8640-d2a0a911e957}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assets\3D Primitives">
+      <UniqueIdentifier>{2d9c3c4b-1dcb-49ee-91b5-19047a731f5a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml" />
@@ -442,6 +445,13 @@
     <None Include="ModelViewer_TemporaryKey.pfx" />
     <None Include="Assets\Shaders\pbrpixel.hlsl" />
     <None Include="Assets\Shaders\pbrvertex.hlsl" />
+    <None Include="Assets\3D Primitives\cube.glb">
+      <Filter>Assets\3D Primitives</Filter>
+    </None>
+    <None Include="Assets\3D Primitives\sphere.glb" />
+    <None Include="Assets\3D Primitives\cone.glb" />
+    <None Include="Assets\3D Primitives\cylinder.glb" />
+    <None Include="Assets\3D Primitives\torus.glb" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="DirectXPage.xaml" />

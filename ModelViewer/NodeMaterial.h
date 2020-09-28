@@ -36,13 +36,67 @@ private:
 	unsigned int _type;
 };
 
+class MaterialDescriptor
+{
+public:
+	MaterialDescriptor(wstring name) :
+		_Emissivetexture(0),
+		_Normaltexture(0),
+		_Occlusiontexture(0),
+		_Pbrmetallicroughness_Basecolortexture(0),
+			_Pbrmetallicroughness_Metallicroughnesstexture(0),
+		_metallicFactor(0.0f),
+		_roughnessFactor(0.0f),
+		_name(name)
+	{
+		_emmissiveFactor[0] = _emmissiveFactor[1] = _emmissiveFactor[2] = 0.0f;
+		_baseColorFactor[0] = _baseColorFactor[2] = _baseColorFactor[2] = 0.5f;
+		_baseColorFactor[3] = 1.0f;
+	}
+
+	void setEmissiveTexture(unsigned int emissiveTexture) { _Emissivetexture = emissiveTexture; }
+	void setNormalTexture(unsigned int normalTexture) { _Normaltexture = normalTexture; }
+	void setOcclusionTexture(unsigned int occlusionTexture) { _Occlusiontexture = occlusionTexture; }
+	void setPbrmetallicroughness_Basecolortexture(unsigned int pbrmetallicroughness_Basecolortexture) { _Pbrmetallicroughness_Basecolortexture = pbrmetallicroughness_Basecolortexture; }
+	void setPbrmetallicroughness_Metallicroughnesstexture(unsigned int pbrmetallicroughness_Metallicroughnesstexture) { _Pbrmetallicroughness_Metallicroughnesstexture = pbrmetallicroughness_Metallicroughnesstexture; }
+	void setEmissiveFactor(float r, float g, float b) { _emmissiveFactor[0] = r; _emmissiveFactor[1] = g; _emmissiveFactor[2] = b; };
+	void setBaseColorFactor(float r, float g, float b, float a) { _baseColorFactor[0] = r; _baseColorFactor[1] = g; _baseColorFactor[2] = b; _baseColorFactor[3] = a; };
+	void setMetallicFactor(float mf) { _metallicFactor = mf; }
+	void setRoughnessFactor(float rf) { _roughnessFactor = rf; }
+
+	unsigned int getEmissiveTexture() const { return _Emissivetexture; }
+	unsigned int getNormalTexture() const { return _Normaltexture; }
+	unsigned int getOcclusionTexture() const { return _Occlusiontexture; }
+	unsigned int getPbrmetallicroughness_Basecolortexture() const { return _Pbrmetallicroughness_Basecolortexture; }
+	unsigned int getPbrmetallicroughness_Metallicroughnesstexture() const { return _Pbrmetallicroughness_Metallicroughnesstexture; }
+	const float *getEmissiveFactor() const { return &_emmissiveFactor[0]; };
+	const float *getBaseColorFactor() const { return &_baseColorFactor[0]; };
+	float getMetallicFactor() const { return _metallicFactor; }
+	float getRoughnessFactor() const { return _roughnessFactor; }
+
+	wstring getName() const { return _name; }
+
+private:
+	unsigned int _Emissivetexture;
+	unsigned int _Normaltexture;
+	unsigned int _Occlusiontexture;
+	unsigned int _Pbrmetallicroughness_Basecolortexture;
+	unsigned int _Pbrmetallicroughness_Metallicroughnesstexture;
+	float _emmissiveFactor[3];
+	float _baseColorFactor[4];
+	float _metallicFactor;
+	float _roughnessFactor;
+
+	wstring _name;
+};
+
 class NodeMaterial
 {
 public:
 	NodeMaterial();
 	~NodeMaterial();
 
-	void Initialise(GLTF_MaterialData^ data);
+	void Initialise(const MaterialDescriptor& data);
 	void AddTexture(unsigned int idx, 
 					unsigned int type,
 					ComPtr<ID3D11Texture2D> tex, 
