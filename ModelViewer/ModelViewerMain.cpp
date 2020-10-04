@@ -20,7 +20,7 @@ ModelViewerMain::ModelViewerMain(const shared_ptr<DeviceResources>& deviceResour
 	m_fpsTextRenderer = unique_ptr<SampleFpsTextRenderer>(new SampleFpsTextRenderer(m_deviceResources));
 	m_sceneRenderer = unique_ptr<Sample3DSceneRenderer>(new Sample3DSceneRenderer(m_deviceResources));
 
-	m_renderTexture->Initialize(320, 256);
+	m_renderTexture->Initialize(1980, 1024);
 
 	// TODO: Change the timer settings if you want something other than the default variable timestep mode.
 	// e.g. for 60 FPS fixed timestep update logic, call:
@@ -97,6 +97,8 @@ void ModelViewerMain::ProcessInput()
 	//m_sceneRenderer->TrackingUpdate(m_pointerLocationX, m_pointerLocationY, m_mod);
 }
 
+static int times = 0;
+
 // Renders the current frame according to the current application state.
 // Returns true if the frame was rendered and is ready to be displayed.
 bool ModelViewerMain::Render() 
@@ -113,6 +115,14 @@ bool ModelViewerMain::Render()
 	auto viewport = m_deviceResources->GetScreenViewport();
 	context->RSSetViewports(1, &viewport);
 
+	if (++times > 2000)
+	{
+		m_renderTexture->SetRenderTarget(m_deviceResources->GetDepthStencilView());
+		m_renderTexture->ClearRenderTarget(m_deviceResources->GetDepthStencilView(), _backgroundColour);
+		m_sceneRenderer->Render();
+		m_fpsTextRenderer->Render();
+	}
+
 	// Reset render targets to the screen.
 	ID3D11RenderTargetView *const targets[1] = { m_deviceResources->GetBackBufferRenderTargetView() };
 	context->OMSetRenderTargets(1, targets, m_deviceResources->GetDepthStencilView());
@@ -128,10 +138,6 @@ bool ModelViewerMain::Render()
 	m_sceneRenderer->Render();
 	m_fpsTextRenderer->Render();
 
-	//m_renderTexture->SetRenderTarget(m_deviceResources->GetDepthStencilView());
-	//m_renderTexture->ClearRenderTarget(m_deviceResources->GetDepthStencilView(), _backgroundColour);
-	//m_sceneRenderer->Render();
-	//m_fpsTextRenderer->Render();
 
 	// Putting this here for now but bear in mind it might make more ense for this to be called from elsewhere..
 	// The general scheme is to use the HolographicSpace to retrieve the next HolographicFrame then we render to 

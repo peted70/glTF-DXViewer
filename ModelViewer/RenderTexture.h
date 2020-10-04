@@ -21,6 +21,10 @@ namespace ModelViewer
 		ComPtr<ID3D11Texture2D> m_renderTargetTexture;
 		ComPtr<ID3D11RenderTargetView> m_renderTargetView;
 		ComPtr<ID3D11ShaderResourceView> m_shaderResourceView;
+
+		ComPtr<ID3D11Texture2D> m_depthStencilBuffer;
+		ComPtr<ID3D11DepthStencilView> m_depthStencilView;
+
 		shared_ptr<DeviceResources> m_deviceResources;
 	};
 }

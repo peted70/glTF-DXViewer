@@ -33,7 +33,7 @@ void RenderTexture::Initialize(int width, int height)
 	textureDesc.Height = height;
 	textureDesc.MipLevels = 1;
 	textureDesc.ArraySize = 1;
-	textureDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	textureDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;// DXGI_FORMAT_R8G8B8A8_UNORM;
 	textureDesc.SampleDesc.Count = 1;
 	textureDesc.Usage = D3D11_USAGE_DEFAULT;
 	textureDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
@@ -63,11 +63,38 @@ void RenderTexture::Initialize(int width, int height)
 
 	// Create the shader resource view.
 	ThrowIfFailed(dev->CreateShaderResourceView(m_renderTargetTexture.Get(), &shaderResourceViewDesc, &m_shaderResourceView));
+
+	// Create the Depth Stencil Buffer
+	D3D11_TEXTURE2D_DESC descDepth;
+	descDepth.Width = width;
+	descDepth.Height = height;
+	descDepth.MipLevels = 1;
+	descDepth.ArraySize = 1;
+	descDepth.Format = DXGI_FORMAT_D32_FLOAT;
+	descDepth.SampleDesc.Count = 1;
+	descDepth.SampleDesc.Quality = 0;
+	descDepth.Usage = D3D11_USAGE_DEFAULT;
+	descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+	descDepth.CPUAccessFlags = 0;
+	descDepth.MiscFlags = 0;
+	ThrowIfFailed(dev->CreateTexture2D(&descDepth, NULL, &m_depthStencilBuffer));
+
+	// Create the Depth Stencil Buffer View
+	D3D11_DEPTH_STENCIL_VIEW_DESC descDSV;
+	descDSV.Format = DXGI_FORMAT_D32_FLOAT;
+	descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+	descDSV.Flags = 0;
+	descDSV.Texture2D.MipSlice = 0;
+
+	// Create the depth stencil view
+	ThrowIfFailed(dev->CreateDepthStencilView(m_depthStencilBuffer.Get(), &descDSV, m_depthStencilView.GetAddressOf()));
 }
 
 void RenderTexture::SetRenderTarget(ID3D11DepthStencilView *depthStencilView)
 {
-	m_deviceResources->GetD3DDeviceContext()->OMSetRenderTargets(1, &m_renderTargetView, depthStencilView);
+	ID3D11RenderTargetView* const targets[1] = { m_renderTargetView.Get() };
+
+	m_deviceResources->GetD3DDeviceContext()->OMSetRenderTargets(1, targets, m_depthStencilView.Get());
 }
 
 void RenderTexture::ClearRenderTarget(ID3D11DepthStencilView *depthStencilView, XMFLOAT4 colour)
@@ -77,5 +104,5 @@ void RenderTexture::ClearRenderTarget(ID3D11DepthStencilView *depthStencilView, 
 	dc->ClearRenderTargetView(m_renderTargetView.Get(), &col[0]);
 
 	// Clear the depth buffer.
-	dc->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+	dc->ClearDepthStencilView(m_depthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 }
