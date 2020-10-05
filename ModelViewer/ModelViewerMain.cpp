@@ -121,6 +121,7 @@ bool ModelViewerMain::Render()
 		m_renderTexture->ClearRenderTarget(m_deviceResources->GetDepthStencilView(), _backgroundColour);
 		m_sceneRenderer->Render();
 		m_fpsTextRenderer->Render();
+		m_redenrTexture->AfterRender();
 	}
 
 	// Reset render targets to the screen.

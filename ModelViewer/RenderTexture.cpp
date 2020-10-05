@@ -45,6 +45,11 @@ void RenderTexture::Initialize(int width, int height)
 	// Create the render target texture.
 	ThrowIfFailed(dev->CreateTexture2D(&textureDesc, NULL, m_renderTargetTexture.GetAddressOf()));
 
+	// Create a staging texture so we can copy our render texture to it and read the pixels fro network
+	// transmission..
+	textureDesc.Usage = D3D11_USAGE_STAGING;
+	ThrowIfFailed(dev->CreateTexture2D(&textureDesc, NULL, m_stagingTexture.GetAddressOf()));
+
 	// Setup the description of the render target view.
 	D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc;
 	renderTargetViewDesc.Format = textureDesc.Format;
@@ -105,4 +110,23 @@ void RenderTexture::ClearRenderTarget(ID3D11DepthStencilView *depthStencilView, 
 
 	// Clear the depth buffer.
 	dc->ClearDepthStencilView(m_depthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+}
+
+void RenderTexture::AfterRender()
+{
+	auto dc = m_deviceResources->GetD3DDeviceContext();
+
+	// Looks like we can do this more efficientl using dirty rectangles
+	// (see https://stackoverflow.com/questions/43630401/how-to-access-pixels-data-from-id3d11texture2d)
+	dc->CopyResource(m_renderTargetTexture.Get(), m_stagingTexture.Get());
+
+	D3D11_MAPPED_SUBRESOURCE mapInfo;
+	ThrowIfFailed(dc->Map(m_stagingTexture.Get(), 0, D3D11_MAP_READ, 0, &mapInfo));
+
+	ComPtr<ID3D11Texture2D> mappedTexture = std::move(m_stagingTexture);
+
+	// Read the pixels...
+	//mapInfo.
+
+	dc->Unmap(mappedTexture.Get(), 0);
 }

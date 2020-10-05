@@ -14,11 +14,15 @@ namespace ModelViewer
 
 		void SetRenderTarget(ID3D11DepthStencilView *depthStencilView);
 		void ClearRenderTarget(ID3D11DepthStencilView *depthStencilView, XMFLOAT4 colour);
+		void AfterRender();
+
 		ID3D11ShaderResourceView *GetShaderResourceView() { return m_shaderResourceView.Get(); }
 		ID3D11Texture2D *GetTexture() { return m_renderTargetTexture.Get(); }
 
 	private:
 		ComPtr<ID3D11Texture2D> m_renderTargetTexture;
+		ComPtr<ID3D11Texture2D> m_stagingTexture;
+		
 		ComPtr<ID3D11RenderTargetView> m_renderTargetView;
 		ComPtr<ID3D11ShaderResourceView> m_shaderResourceView;
 
